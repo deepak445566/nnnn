@@ -280,7 +280,12 @@ const VolunteerGallery = () => {
                           <Eye className="w-4 h-4 mr-1" />
                           View Card
                         </button>
-                      
+                        <button
+                          onClick={() => confirmDelete(volunteer)}
+                          className="px-3 py-2 bg-red-100 text-red-600 rounded-lg font-medium hover:bg-red-200 transition flex items-center justify-center"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
                   </div>
