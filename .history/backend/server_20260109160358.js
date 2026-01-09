@@ -15,7 +15,7 @@ const corsOptions = {
    
     'http://localhost:5173',
     
-   'https://www.soorveeryuvasangthan.com'
+   'https://www.soorveeryuvasangthan.com/'
   
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
