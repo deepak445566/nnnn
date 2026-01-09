@@ -40,7 +40,7 @@ const AdminDashboard = () => {
 
     try {
       // Fetch stats
-      const statsRes = await fetch('https://nnnn-x39m.onrender.com/api/admin/stats', {
+      const statsRes = await fetch'https://nnnn-x39m.onrender.com/api'}/admin/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
