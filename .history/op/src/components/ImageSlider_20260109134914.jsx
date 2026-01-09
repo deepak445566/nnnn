@@ -92,7 +92,7 @@ const handledonate = ()=>{
 
   return (
     <div 
-      className="relative w-full h-[100vh] overflow-hidden"
+      className="relative w-[100] h-[100vh] overflow-hidden"
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
@@ -104,7 +104,7 @@ const handledonate = ()=>{
             index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
           }`}
         >
-          <div className="relative w-[100%] h-full">
+          <div className="relative w-full h-full">
             {/* Background Image with overlay - Different images for mobile/desktop */}
             <div 
               className="absolute inset-0 bg-cover "
