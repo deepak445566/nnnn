@@ -269,7 +269,7 @@ const AdminDashboard = () => {
                 <h3 className="text-3xl font-bold text-gray-800">{stats.vicePresident}</h3>
               </div>
               <div className="bg-purple-100 p-3 rounded-full">
-                <Award className="w-8 h-8 text-purple-600" />
+                <Award className="w-8git h-8 text-purple-600" />
               </div>
             </div>
             <p className="text-xs text-gray-500 mt-2">

@@ -20,7 +20,7 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://nnnn-x39m.onrender.com/api'}/admin/login`, {
+      const response = await fetch(`'http://localhost:5000/api'}/admin/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

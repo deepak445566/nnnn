@@ -49,7 +49,7 @@ const AdminDashboard = () => {
       if (statsData.success) setStats(statsData.data);
 
       // Fetch volunteers
-      const volunteersRes = await fetch(`${import.meta.env.VITE_API_URL || 'https://nnnn-x39m.onrender.com/api'}/admin/volunteers`, {
+      const volunteersRes = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/admin/volunteers`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -98,7 +98,7 @@ const AdminDashboard = () => {
     const token = localStorage.getItem('adminToken');
     
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://nnnn-x39m.onrender.com/api'}/admin/assign-role`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/admin/assign-role`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ const AdminDashboard = () => {
     const token = localStorage.getItem('adminToken');
     
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://nnnn-x39m.onrender.com/api'}/admin/remove-role`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/admin/remove-role`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
