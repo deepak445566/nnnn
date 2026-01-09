@@ -15,7 +15,7 @@ const corsOptions = {
    
     'http://localhost:5173',
     
-   'https://nnnn-two-amber.vercel.app'
+   'https://nnnn-two-amber.vercel.app/'
   
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
