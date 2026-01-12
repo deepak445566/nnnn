@@ -15,11 +15,6 @@ import VolunteerGallery from './components/VolunteerGallery';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
 import Focus from './components/Focus';
-import Eductaion from './components/Eductaion';
-import Clothes from './components/Clothes';
-import Food from './components/Food';
-import Homesforman from './components/Homesforman';
-import Animal from './components/Animal';
 
 function App() {
   const [latestVolunteer, setLatestVolunteer] = useState(null);
@@ -83,11 +78,11 @@ function App() {
           } />
           <Route path="/donate" element={<DonationPage/>}/>
   <Route path="/gallery" element={<VolunteerGallery />} />
-<Route path="/education" element={<Eductaion/>} />
+<Route path="/education" element={<Educa />} />
 <Route path="/clothes" element={<Clothes />} />
 <Route path="/food" element={<Food />} />
-<Route path="/shelter" element={<Homesforman />} />
-<Route path="/animal-feed" element={<Animal />} />
+<Route path="/shelter" element={<Shelter />} />
+<Route path="/animal-feed" element={<AnimalFeed />} />
 
 <Route path="/admin/login" element={<AdminLogin />} />
 <Route path="/admin/dashboard" element={<AdminDashboard />} />

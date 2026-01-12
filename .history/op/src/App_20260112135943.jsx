@@ -19,7 +19,6 @@ import Eductaion from './components/Eductaion';
 import Clothes from './components/Clothes';
 import Food from './components/Food';
 import Homesforman from './components/Homesforman';
-import Animal from './components/Animal';
 
 function App() {
   const [latestVolunteer, setLatestVolunteer] = useState(null);
