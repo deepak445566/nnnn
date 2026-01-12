@@ -14,8 +14,8 @@ const corsOptions = {
   origin: [
    
     'http://localhost:5173',
-    
-   'https://nnnn-two-amber.vercel.app'
+    ''
+   'https://www.soorveeryuvasangthan.com'
   
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
