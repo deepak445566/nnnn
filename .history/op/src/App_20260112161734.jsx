@@ -20,7 +20,6 @@ import Clothes from './components/Clothes';
 import Food from './components/Food';
 import Homesforman from './components/Homesforman';
 import Animal from './components/Animal';
-import AnimalRescue from './components/AnimalRescue';
 
 function App() {
   const [latestVolunteer, setLatestVolunteer] = useState(null);
@@ -78,7 +77,7 @@ function App() {
               <Focus/>
               <AboutSection />
               <InstagramVideoSimple />
-              <AnimalRescue/>
+              <Anima
               <VolunteerPage />
               <ModernFooter/>
             </>
