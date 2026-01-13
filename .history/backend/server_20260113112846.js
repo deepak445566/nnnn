@@ -1,4 +1,4 @@
-// backend/server.js - UPDATED with keep-alive fix
+// backend/server.js - UPDATED
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -12,8 +12,11 @@ const app = express();
 // CORS Configuration
 const corsOptions = {
   origin: [
+   
     'http://localhost:5173',
-    'https://www.soorveeryuvasangthan.com'
+    
+   'https://www.soorveeryuvasangthan.com'
+  
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
@@ -24,33 +27,23 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+
 // Body parsing with increased limits
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// MongoDB Connection - FIXED VERSION
+// MongoDB Connection - SIMPLIFIED (without deprecated options)
 const connectDB = async () => {
   try {
-    // MongoDB connection options
-    const mongooseOptions = {
-      keepAlive: true,  // 👈 THIS KEEPS CONNECTION ALIVE
-      connectTimeoutMS: 30000,
-      socketTimeoutMS: 45000,
-      maxPoolSize: 10
-    };
-
     // Try production MongoDB first
     if (process.env.MONGODB_URI) {
       console.log('🔗 Connecting to MongoDB Atlas...');
-      await mongoose.connect(process.env.MONGODB_URI, mongooseOptions);
+      await mongoose.connect(process.env.MONGODB_URI);
       console.log('✅ MongoDB Atlas Connected Successfully');
     } else {
       // Fallback to local MongoDB
       console.log('🔗 Connecting to local MongoDB...');
-      await mongoose.connect(
-        'mongodb+srv://digitalexpressindia30_db_user:digitalexpressindia30_db_user@clusterdigital.1y0nunx.mongodb.net/trust', 
-        mongooseOptions
-      );
+      await mongoose.connect('mongodb+srv://digitalexpressindia30_db_user:digitalexpressindia30_db_user@clusterdigital.1y0nunx.mongodb.net/trust');
       console.log('✅ Local MongoDB Connected Successfully');
     }
   } catch (error) {
@@ -71,23 +64,9 @@ const connectDB = async () => {
 // Connect to database
 connectDB();
 
-// 👇 ADD THIS: Keep-alive ping every 10 minutes
-setInterval(() => {
-  if (mongoose.connection.readyState === 1) {
-    try {
-      // Simple query to keep connection alive
-      mongoose.connection.db.admin().ping();
-      console.log('🔄 Pinged MongoDB (keep-alive)');
-    } catch (err) {
-      console.log('⚠️  MongoDB ping failed:', err.message);
-    }
-  }
-}, 10 * 60 * 1000); // 10 minutes
-
 // Routes
 app.use('/api/volunteers', volunteerRoutes);
 app.use('/api/admin', adminRoutes);
-
 // Test endpoint
 app.get('/api/test', (req, res) => {
   res.json({
@@ -124,5 +103,4 @@ app.listen(PORT, () => {
   console.log(`🔗 API URL: http://localhost:${PORT}`);
   console.log(`☁️  Cloudinary: ${process.env.CLOUDINARY_CLOUD_NAME ? 'Ready' : 'Not Configured'}`);
   console.log(`🗄️  MongoDB: ${mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'}`);
-  console.log(`🔋 Keep-alive: Active (pinging every 10 minutes)`);
 });
