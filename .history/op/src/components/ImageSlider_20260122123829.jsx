@@ -134,14 +134,12 @@ const handledonate = ()=>{
                 <p className="text-lg sm:text-xl lg:text-2xl mb-8 new opacity-90">
                   {image.description}
                 </p>
-                <div className="flex gap-2 flex-col lg:flex-row">
                 <button onClick={handledonate} className="bg-[#50C779] hover:bg-[#3EAE66] text-white px-6 py-3 sm:px-8 sm:py-3 rounded-2xl font-semibold text-base sm:text-lg transition duration-300 shadow-lg hover:scale-105">
                   Support a Child
                 </button>
                  <button onClick={handlejoin} className="bg-gradient-to-r from-[#50C779] to-[#3EAE66] hover:from-[#3EAE66] hover:to-[#50C779] text-white px-6 md:px-8 lg:px-10 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold text-base md:text-lg lg:text-xl transition-all duration-300 shadow-lg md:shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5">
               Join as Volunteer
             </button>
-            </div>
               </div>
             </div>
           </div>

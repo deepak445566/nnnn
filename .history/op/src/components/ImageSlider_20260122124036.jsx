@@ -134,7 +134,7 @@ const handledonate = ()=>{
                 <p className="text-lg sm:text-xl lg:text-2xl mb-8 new opacity-90">
                   {image.description}
                 </p>
-                <div className="flex gap-2 flex-col lg:flex-row">
+                <div className="flex gap-2 flex-col lg:flex-">
                 <button onClick={handledonate} className="bg-[#50C779] hover:bg-[#3EAE66] text-white px-6 py-3 sm:px-8 sm:py-3 rounded-2xl font-semibold text-base sm:text-lg transition duration-300 shadow-lg hover:scale-105">
                   Support a Child
                 </button>

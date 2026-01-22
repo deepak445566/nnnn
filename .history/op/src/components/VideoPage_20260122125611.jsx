@@ -92,14 +92,14 @@ const InstagramVideoSimple = () => {
           </div>
           
           {/* Right Video - Clean Version */}
-          <div className="w-full lg:w-1/2 ">
+          <div className="w-full lg:w-1/2">
             {/* Video Container with Clean Instagram Embed */}
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-gray-100">
               {/* Direct Video Embed - Clean Version */}
-              <div className="w-full " style={{ paddingBottom: '125%' }}>
+              <div className="w-full" style={{ paddingBottom: '125%' }}>
                 <iframe
                   src="https://www.instagram.com/p/DB1NT7FS1To/embed/captioned"
-                  className="absolute top-0 left-0 w-full h-[150vh] border-0"
+                  className="absolute top-0 left-0 w-full h-full border-0"
                   title="Instagram Video"
                   allow="autoplay; encrypted-media"
                   scrolling="no"
