@@ -1,5 +1,5 @@
 // App.jsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react'; // useEffect import करें
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
@@ -25,147 +25,17 @@ import AnimalRescue from './components/AnimalRescue';
 function App() {
   const [latestVolunteer, setLatestVolunteer] = useState(null);
   const [showCard, setShowCard] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const videoRef = useRef(null);
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [isLoading, setIsLoading] = useState(true); // Loading state
 
+  // Loading simulation (5 seconds)
   useEffect(() => {
-    // Video loaded होने पर play करें
-    if (videoRef.current && videoLoaded) {
-      videoRef.current.play().catch(e => {
-        console.log("Auto-play prevented, showing fallback:", e);
-        // Fallback: mute और play
-        videoRef.current.muted = true;
-        videoRef.current.play();
-      });
-    }
-
-    // Progress bar animation
-    const progressInterval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          return 100;
-        }
-        return prev + 1;
-      });
-    }, 2000); // 5 seconds = 5000ms / 100 = 50ms per percent
-
-    // 5 seconds के बाद या video end होने पर loading hide
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 5000); // 5 seconds
 
-    const handleVideoEnd = () => {
-      console.log("Video ended, loading complete");
-      setIsLoading(false);
-    };
+    return () => clearTimeout(timer);
+  }, []);
 
-    const videoElement = videoRef.current;
-    if (videoElement) {
-      videoElement.addEventListener('ended', handleVideoEnd);
-    }
-
-    return () => {
-      clearTimeout(timer);
-      clearInterval(progressInterval);
-      if (videoElement) {
-        videoElement.removeEventListener('ended', handleVideoEnd);
-      }
-    };
-  }, [videoLoaded]);
-
-  // Loading Component with Video
-  if (isLoading) {
-    return (
-      <div className="h-screen flex flex-col items-center justify-center ">
-        
-      
-
-        {/* Main Container */}
-        <div className="relative z-10 w-full h-full ">
-          
-         
-          {/* Video Container */}
-          <div className="relative w-full h-full mx-auto aspect-video mb-8 overflow-hidden  ">
-            
-            {/* Local Video - अपना video file path यहाँ डालें */}
-            <video
-              ref={videoRef}
-              className="w-full h-full object-cover"
-              preload="auto"
-              muted={false}
-              playsInline
-              onLoadedData={() => {
-                console.log("Video loaded");
-                setVideoLoaded(true);
-              }}
-              onError={(e) => {
-                console.error("Video error:", e);
-                // Fallback YouTube video यदि local video नहीं load होता
-              }}
-            >
-              {/* Multiple sources for compatibility */}
-              <source src="\images\video1.mp4" type="video/mp4" />
-              <source src="/videos/aak-intro.webm" type="video/webm" />
-              {/* Fallback YouTube iframe यदि video नहीं चलता */}
-              Your browser does not support the video tag.
-            </video>
-
-            {/* Video Controls Overlay */}
-            
-
-          </div>
-
-        
-
-         
-
-         
-
-        </div>
-
-        {/* CSS Animations */}
-        <style jsx>{`
-          @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-          }
-          
-          @keyframes slideUp {
-            from { 
-              opacity: 0;
-              transform: translateY(30px);
-            }
-            to { 
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          
-          @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-          }
-          
-          .animate-fadeIn {
-            animation: fadeIn 1s ease-out;
-          }
-          
-          .animate-slideUp {
-            animation: slideUp 1s ease-out 0.3s both;
-          }
-          
-          .animate-shimmer {
-            animation: shimmer 2s infinite;
-          }
-        `}</style>
-      </div>
-    );
-  }
-
-  // Rest of your existing App component code...
   const handleVolunteerSubmit = (volunteerData) => {
     console.log('New volunteer submitted:', volunteerData);
     setLatestVolunteer(volunteerData);
@@ -183,6 +53,56 @@ function App() {
     setLatestVolunteer(null);
   };
 
+  // Loading Animation Component
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white">
+        <div className="text-center">
+          {/* Animated Logo/Icon */}
+          <div className="relative w-32 h-32 mx-auto mb-8">
+            <div className="absolute inset-0 border-4 border-blue-200 rounded-full"></div>
+            <div className="absolute inset-4 border-4 border-transparent border-t-blue-600 rounded-full animate-spin"></div>
+            <div className="absolute inset-8 bg-gradient-to-r from-blue-600 to-green-500 rounded-full flex items-center justify-center">
+              <span className="text-white text-2xl font-bold">AAK</span>
+            </div>
+          </div>
+          
+          {/* Loading Text */}
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">
+            AAK Foundation
+          </h2>
+          <p className="text-gray-600 mb-6">
+            Loading compassion, hope and change...
+          </p>
+          
+          {/* Progress Bar */}
+          <div className="w-64 h-2 bg-gray-200 rounded-full overflow-hidden mx-auto">
+            <div 
+              className="h-full bg-gradient-to-r from-blue-600 to-green-500 rounded-full animate-pulse"
+              style={{
+                animation: 'loadingBar 5s ease-in-out forwards',
+                width: '0%'
+              }}
+            ></div>
+          </div>
+          
+          {/* Loading Animation CSS */}
+          <style jsx>{`
+            @keyframes loadingBar {
+              0% { width: 0%; }
+              20% { width: 20%; }
+              40% { width: 40%; }
+              60% { width: 60%; }
+              80% { width: 80%; }
+              100% { width: 100%; }
+            }
+          `}</style>
+        </div>
+      </div>
+    );
+  }
+
+  // Main App Content
   return (
     <Router>
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">

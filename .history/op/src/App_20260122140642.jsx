@@ -41,21 +41,12 @@ function App() {
       });
     }
 
-    // Progress bar animation
-    const progressInterval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          return 100;
-        }
-        return prev + 1;
-      });
-    }, 2000); // 5 seconds = 5000ms / 100 = 50ms per percent
+   
 
     // 5 seconds के बाद या video end होने पर loading hide
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 3000);
 
     const handleVideoEnd = () => {
       console.log("Video ended, loading complete");
@@ -116,7 +107,7 @@ function App() {
             {/* Video Controls Overlay */}
             
 
-          </div>
+            
 
         
 

@@ -55,7 +55,7 @@ function App() {
     // 5 seconds के बाद या video end होने पर loading hide
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 3000);
 
     const handleVideoEnd = () => {
       console.log("Video ended, loading complete");

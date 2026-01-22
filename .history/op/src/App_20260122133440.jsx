@@ -50,12 +50,12 @@ function App() {
         }
         return prev + 1;
       });
-    }, 2000); // 5 seconds = 5000ms / 100 = 50ms per percent
+    }, 50); // 5 seconds = 5000ms / 100 = 50ms per percent
 
     // 5 seconds के बाद या video end होने पर loading hide
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 5000);
 
     const handleVideoEnd = () => {
       console.log("Video ended, loading complete");
@@ -79,16 +79,34 @@ function App() {
   // Loading Component with Video
   if (isLoading) {
     return (
-      <div className="h-screen flex flex-col items-center justify-center ">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-black overflow-hidden">
         
-      
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-green-500 rounded-full blur-3xl"></div>
+        </div>
 
         {/* Main Container */}
-        <div className="relative z-10 w-full h-full ">
+        <div className="relative z-10 w-full max-w-6xl px-4">
           
-         
+          {/* Header */}
+          <div className="text-center mb-8 animate-fadeIn">
+            <div className="flex justify-center items-center mb-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-green-500 rounded-full flex items-center justify-center mr-4 shadow-2xl">
+                <span className="text-2xl font-bold text-white">AAK</span>
+              </div>
+              <div>
+                <h1 className="text-5xl font-bold text-white mb-2">
+                  AAK Foundation
+                </h1>
+                <p className="text-xl text-gray-300">सेवा परमो धर्मः (Service is the highest duty)</p>
+              </div>
+            </div>
+          </div>
+
           {/* Video Container */}
-          <div className="relative w-full h-full mx-auto aspect-video mb-8 overflow-hidden  ">
+          <div className="relative w-full max-w-4xl mx-auto aspect-video mb-8 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 animate-slideUp">
             
             {/* Local Video - अपना video file path यहाँ डालें */}
             <video
@@ -107,22 +125,103 @@ function App() {
               }}
             >
               {/* Multiple sources for compatibility */}
-              <source src="\images\video1.mp4" type="video/mp4" />
+              <source src="/videos/aak-intro.mp4" type="video/mp4" />
               <source src="/videos/aak-intro.webm" type="video/webm" />
               {/* Fallback YouTube iframe यदि video नहीं चलता */}
               Your browser does not support the video tag.
             </video>
 
             {/* Video Controls Overlay */}
-            
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <button
+                    onClick={() => videoRef.current?.play()}
+                    className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition"
+                  >
+                    <i className="fas fa-play text-white"></i>
+                  </button>
+                  <button
+                    onClick={() => videoRef.current?.pause()}
+                    className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition"
+                  >
+                    <i className="fas fa-pause text-white"></i>
+                  </button>
+                </div>
+                
+                <div className="text-white">
+                  <span className="text-sm">Loading AAK Foundation...</span>
+                </div>
+              </div>
+            </div>
 
+            {/* Loading Overlay */}
+            {!videoLoaded && (
+              <div className="absolute inset-0 bg-black/80 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-16 h-16 border-4 border-t-transparent border-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+                  <p className="text-white text-lg">Loading video...</p>
+                </div>
+              </div>
+            )}
           </div>
 
         
 
-         
+          {/* Stats or Messages */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mr-4">
+                  <i className="fas fa-hands-helping text-blue-400 text-xl"></i>
+                </div>
+                <div>
+                  <p className="text-gray-300">Volunteers Ready</p>
+                  <p className="text-2xl font-bold text-white">250+</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mr-4">
+                  <i className="fas fa-heart text-green-400 text-xl"></i>
+                </div>
+                <div>
+                  <p className="text-gray-300">Lives Impacted</p>
+                  <p className="text-2xl font-bold text-white">5000+</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center mr-4">
+                  <i className="fas fa-home text-purple-400 text-xl"></i>
+                </div>
+                <div>
+                  <p className="text-gray-300">Projects Active</p>
+                  <p className="text-2xl font-bold text-white">15+</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-         
+          {/* Skip Button */}
+          <div className="text-center">
+            <button
+              onClick={() => setIsLoading(false)}
+              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold rounded-full hover:from-blue-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center mx-auto"
+            >
+              <i className="fas fa-forward mr-2"></i>
+              Skip to Website ({Math.floor((100 - progress) / 10)}s)
+            </button>
+            
+            <p className="text-gray-400 text-sm mt-4">
+              <i className="fas fa-info-circle mr-2"></i>
+              Video will play once. You can skip anytime.
+            </p>
+          </div>
 
         </div>
 

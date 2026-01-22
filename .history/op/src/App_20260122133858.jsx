@@ -21,7 +21,7 @@ import Food from './components/Food';
 import Homesforman from './components/Homesforman';
 import Animal from './components/Animal';
 import AnimalRescue from './components/AnimalRescue';
-
+import videoRef from '/images/video.mp4'
 function App() {
   const [latestVolunteer, setLatestVolunteer] = useState(null);
   const [showCard, setShowCard] = useState(false);
@@ -50,12 +50,12 @@ function App() {
         }
         return prev + 1;
       });
-    }, 2000); // 5 seconds = 5000ms / 100 = 50ms per percent
+    }, 50); // 5 seconds = 5000ms / 100 = 50ms per percent
 
     // 5 seconds के बाद या video end होने पर loading hide
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 5000);
 
     const handleVideoEnd = () => {
       console.log("Video ended, loading complete");
@@ -107,15 +107,45 @@ function App() {
               }}
             >
               {/* Multiple sources for compatibility */}
-              <source src="\images\video1.mp4" type="video/mp4" />
+              <source src="/videos/aak-intro.mp4" type="video/mp4" />
               <source src="/videos/aak-intro.webm" type="video/webm" />
               {/* Fallback YouTube iframe यदि video नहीं चलता */}
               Your browser does not support the video tag.
             </video>
 
             {/* Video Controls Overlay */}
-            
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <button
+                    onClick={() => videoRef.current?.play()}
+                    className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition"
+                  >
+                    <i className="fas fa-play text-white"></i>
+                  </button>
+                  <button
+                    onClick={() => videoRef.current?.pause()}
+                    className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition"
+                  >
+                    <i className="fas fa-pause text-white"></i>
+                  </button>
+                </div>
+                
+                <div className="text-white">
+                  <span className="text-sm">Loading AAK Foundation...</span>
+                </div>
+              </div>
+            </div>
 
+            {/* Loading Overlay */}
+            {!videoLoaded && (
+              <div className="absolute inset-0 bg-black/80 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-16 h-16 border-4 border-t-transparent border-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+                  <p className="text-white text-lg">Loading video...</p>
+                </div>
+              </div>
+            )}
           </div>
 
         

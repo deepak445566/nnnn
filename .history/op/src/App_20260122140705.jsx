@@ -28,7 +28,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const videoRef = useRef(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
-  const [progress, setProgress] = useState(0);
+  
 
   useEffect(() => {
     // Video loaded होने पर play करें
@@ -41,21 +41,12 @@ function App() {
       });
     }
 
-    // Progress bar animation
-    const progressInterval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          return 100;
-        }
-        return prev + 1;
-      });
-    }, 2000); // 5 seconds = 5000ms / 100 = 50ms per percent
+   
 
     // 5 seconds के बाद या video end होने पर loading hide
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 3000);
 
     const handleVideoEnd = () => {
       console.log("Video ended, loading complete");
@@ -116,6 +107,15 @@ function App() {
             {/* Video Controls Overlay */}
             
 
+            {/* Loading Overlay */}
+            {!videoLoaded && (
+              <div className="absolute inset-0 bg-black/80 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-16 h-16 border-4 border-t-transparent border-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+                  <p className="text-white text-lg">Loading video...</p>
+                </div>
+              </div>
+            )}
           </div>
 
         
