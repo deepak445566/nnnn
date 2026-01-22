@@ -100,7 +100,7 @@ function Focus() {
                 <h3 className="text-lg md:text-xl font-bold mb-2 exo text-gray-800 group-hover:text-[#50C779] transition-colors duration-300">
                   {area.title}
                 </h3>
-                <p className="text-sm text-gray-600 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 max-w-[140px] hidden lg:block">
+                <p className="text-sm text-gray-600 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 max-w-[140px] hidden">
                   {area.description}
                 </p>
               </div>

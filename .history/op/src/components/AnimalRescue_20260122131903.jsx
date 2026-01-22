@@ -6,7 +6,7 @@ function AnimalRescue() {
     <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-5xl shadow-lg overflow-hidden my-8 p-5">
       <div className="grid md:grid-cols-3 gap-10">
         {/* Left Column - Single Image */}
-        <div className="relative overflow-hidden rounded-3xl">
+        <div className="relative overflow-hidden">
           <img 
             src="/images/ar1.jpg" 
             alt="Animal Rescue" 

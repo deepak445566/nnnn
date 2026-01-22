@@ -97,7 +97,7 @@ const handledonate = ()=>{
 
   return (
     <div 
-      className="relative w-full h-[100vh] overflow-hidden py-1"
+      className="relative w-full h-[100vh] overflow-hidden"
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
@@ -126,8 +126,8 @@ const handledonate = ()=>{
             </div>
             
             {/* Content */}
-            <div className="relative z-20 h-full flex items-center px-4 sm:px-6 lg:px-20 ">
-              <div className="max-w-2xl text-white mt-70 md:mt-10">
+            <div className="relative z-20 h-full flex items-center px-4 sm:px-6 lg:px-20 mt-30">
+              <div className="max-w-2xl text-white mt-10 md:mt-0">
                 <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 exo">
                   {image.title}
                 </h2>

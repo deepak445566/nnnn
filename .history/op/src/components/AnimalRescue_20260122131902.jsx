@@ -6,11 +6,11 @@ function AnimalRescue() {
     <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-5xl shadow-lg overflow-hidden my-8 p-5">
       <div className="grid md:grid-cols-3 gap-10">
         {/* Left Column - Single Image */}
-        <div className="relative overflow-hidden rounded-3xl">
+        <div className="relative overflow-hidden">
           <img 
             src="/images/ar1.jpg" 
             alt="Animal Rescue" 
-            className="w-full h-full object-cover rounded-3xl"
+            className="w-full h-full object-cover roun"
             onError={(e) => {
               e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%234FBF8B'/%3E%3Cpath d='M200 150 L260 220 L230 280 L170 280 L140 220 Z' fill='white'/%3E%3Ccircle cx='200' cy='150' r='20' fill='%233EAE66'/%3E%3Cpath d='M120 320 Q200 360 280 320' stroke='white' stroke-width='10' fill='none'/%3E%3C/svg%3E";
             }}
