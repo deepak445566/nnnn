@@ -56,27 +56,21 @@ const VolunteerPage = () => {
       image: "/images/vo7.jpg",
       role: "Healthcare Volunteer",
       description: "Medical professional with 5+ years experience"
-    }
+    },
+    
   ];
 
-  // Take only first 6 volunteers
-  const displayVolunteers = volunteers.slice(0, 6);
+  // Calculate total slides
+  const totalSlides = volunteers.length;
 
   // Auto slide every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => {
-        const nextSlide = prev + 1;
-        // If we reach the end, loop back to start seamlessly
-        if (nextSlide >= displayVolunteers.length) {
-          return 0;
-        }
-        return nextSlide;
-      });
+      setCurrentSlide((prev) => (prev + 1) % totalSlides);
     }, 5000);
     
     return () => clearInterval(interval);
-  }, [displayVolunteers.length]);
+  }, [totalSlides]);
 
   // Handle responsive design
   useEffect(() => {
@@ -108,51 +102,37 @@ const VolunteerPage = () => {
   }, []);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => {
-      const nextSlide = prev + 1;
-      // If we reach the end, loop back to start
-      if (nextSlide >= displayVolunteers.length) {
-        return 0;
-      }
-      return nextSlide;
-    });
+    // If we're near the end and showing less than full set, don't slide
+    if (currentSlide >= totalSlides - slidesToShow) {
+      // If we want to loop back to start, use this:
+      // setCurrentSlide(0);
+      // Otherwise, don't slide past the last item
+      setCurrentSlide(totalSlides - slidesToShow);
+    } else {
+      setCurrentSlide((prev) => prev + 1);
+    }
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => {
-      const prevSlide = prev - 1;
-      // If we go before start, loop to end
-      if (prevSlide < 0) {
-        return displayVolunteers.length - 1;
-      }
-      return prevSlide;
-    });
+    if (currentSlide <= 0) {
+      // If we want to loop to the end, use this:
+      // setCurrentSlide(totalSlides - slidesToShow);
+      // Otherwise, don't slide before first item
+      setCurrentSlide(0);
+    } else {
+      setCurrentSlide((prev) => prev - 1);
+    }
   };
 
   const goToSlide = (index) => {
-    setCurrentSlide(index);
+    // Ensure we don't go beyond the last possible slide
+    const maxSlide = Math.max(0, totalSlides - slidesToShow);
+    const safeIndex = Math.min(index, maxSlide);
+    setCurrentSlide(safeIndex);
   };
 
-  // Create extended array for infinite effect (duplicate volunteers for seamless looping)
-  const getExtendedVolunteers = () => {
-    // Create extended array by duplicating the volunteers
-    return [...displayVolunteers, ...displayVolunteers, ...displayVolunteers];
-  };
-
-  // Calculate transform for infinite effect
-  const getTransformValue = () => {
-    const extendedCount = displayVolunteers.length;
-    // When we're in the last duplicate section, we need to handle the transition
-    const basePosition = currentSlide * itemWidth;
-    
-    // If we're at the beginning of the second duplicate set, jump back
-    if (currentSlide >= extendedCount) {
-      // This shouldn't happen with our logic, but just in case
-      return `translateX(-${((currentSlide % extendedCount) * itemWidth)}%)`;
-    }
-    
-    return `translateX(-${basePosition}%)`;
-  };
+  // Calculate visible dots based on total slides and slides to show
+  const visibleDots = Math.max(1, totalSlides - slidesToShow + 1);
 
   return (
     <div className="min-h-screen bg-white px-4 sm:px-6 lg:px-8 exo">
@@ -175,16 +155,18 @@ const VolunteerPage = () => {
           {/* Navigation Buttons */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-6 z-10 bg-white hover:bg-gray-50 border border-gray-200 rounded-full p-2 md:p-3 shadow-lg hover:shadow-xl transition-all duration-300"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-6 z-10 bg-white hover:bg-gray-50 border border-gray-200 rounded-full p-2 md:p-3 shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Previous slide"
+            disabled={currentSlide <= 0}
           >
             <ChevronLeft className="h-5 w-5 md:h-6 md:w-6 text-gray-700" />
           </button>
 
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-6 z-10 bg-white hover:bg-gray-50 border border-gray-200 rounded-full p-2 md:p-3 shadow-lg hover:shadow-xl transition-all duration-300"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-6 z-10 bg-white hover:bg-gray-50 border border-gray-200 rounded-full p-2 md:p-3 shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Next slide"
+            disabled={currentSlide >= totalSlides - slidesToShow}
           >
             <ChevronRight className="h-5 w-5 md:h-6 md:w-6 text-gray-700" />
           </button>
@@ -194,12 +176,12 @@ const VolunteerPage = () => {
             <div 
               className="transition-transform duration-500 ease-in-out flex"
               style={{
-                transform: getTransformValue()
+                transform: `translateX(-${currentSlide * (itemWidth)}%)`
               }}
             >
-              {getExtendedVolunteers().map((volunteer, index) => (
+              {volunteers.map((volunteer) => (
                 <div 
-                  key={`${volunteer.id}-${index}`} 
+                  key={volunteer.id} 
                   className="flex-shrink-0 px-2"
                   style={{ width: `${itemWidth}%` }}
                 >
@@ -249,14 +231,14 @@ const VolunteerPage = () => {
             </div>
           </div>
 
-          {/* Dots Indicator - Only show dots for the original 6 volunteers */}
+          {/* Dots Indicator */}
           <div className="flex justify-center mt-8 md:mt-10 space-x-2">
-            {displayVolunteers.map((_, index) => (
+            {Array.from({ length: visibleDots }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={`h-2 md:h-3 rounded-full transition-all duration-300 ${
-                  index === currentSlide % displayVolunteers.length
+                  index === currentSlide 
                     ? "bg-[#50C779] w-6 md:w-8" 
                     : "bg-gray-300 hover:bg-gray-400 w-2 md:w-3"
                 }`}
