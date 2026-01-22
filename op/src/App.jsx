@@ -21,6 +21,7 @@ import Food from './components/Food';
 import Homesforman from './components/Homesforman';
 import Animal from './components/Animal';
 import AnimalRescue from './components/AnimalRescue';
+import AutoPlayVideoPage from './components/AutoPlayVideoPage';
 
 function App() {
   const [latestVolunteer, setLatestVolunteer] = useState(null);
@@ -214,6 +215,7 @@ function App() {
              <Navbar />
               <Home />
               <Focus/>
+              <AutoPlayVideoPage/>
               <AboutSection />
               <InstagramVideoSimple />
               <AnimalRescue/>
