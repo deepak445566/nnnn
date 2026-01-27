@@ -4,10 +4,10 @@ import {
   Search, Filter, Download, User, Grid, List, Eye, Trash2, 
   Crown, Award, Users, Phone, MapPin, Calendar, IdCard, 
   Shield, RefreshCw, Printer, Share2, QrCode, ChevronRight,
-  Star, CheckCircle, Tag, Mail, Shield as ShieldIcon
+  Star, CheckCircle, Tag, Mail
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
-import MiniVolunteerCard from './MiniVolunteerCard';
+import MiniVolunteerCard from './VolunteerCard';
 
 const VolunteerGallery = () => {
   const [volunteers, setVolunteers] = useState([]);
@@ -29,10 +29,10 @@ const VolunteerGallery = () => {
     all: 0,
     president: 0,
     'vice-president': 0,
-    'soorveer-yodha': 0
+    employee: 0
   });
 
-  // Fetch all volunteers from database
+  // Fetch all volunteers from database only
   const fetchVolunteers = async () => {
     try {
       setLoading(true);
@@ -44,11 +44,7 @@ const VolunteerGallery = () => {
         
         // Sort by role importance
         const sortedVolunteers = volunteersData.sort((a, b) => {
-          const roleOrder = { 
-            'president': 3, 
-            'vice-president': 2, 
-            'soorveer-yodha': 1 
-          };
+          const roleOrder = { 'president': 3, 'vice-president': 2, 'employee': 1 };
           return (roleOrder[b.role] || 0) - (roleOrder[a.role] || 0);
         });
         
@@ -60,7 +56,7 @@ const VolunteerGallery = () => {
           all: sortedVolunteers.length,
           president: sortedVolunteers.filter(v => v.role === 'president').length,
           'vice-president': sortedVolunteers.filter(v => v.role === 'vice-president').length,
-          'soorveer-yodha': sortedVolunteers.filter(v => v.role === 'soorveer-yodha').length
+          employee: sortedVolunteers.filter(v => v.role === 'employee').length
         };
         setRoleCounts(counts);
       } else {
@@ -84,7 +80,7 @@ const VolunteerGallery = () => {
     fetchVolunteers();
   }, []);
 
-  // Filter volunteers
+  // Filter volunteers with new filters
   useEffect(() => {
     let results = [...volunteers];
     
@@ -122,7 +118,7 @@ const VolunteerGallery = () => {
         results.sort((a, b) => b.name.localeCompare(a.name));
         break;
       case 'role':
-        const roleOrder = { 'president': 3, 'vice-president': 2, 'soorveer-yodha': 1 };
+        const roleOrder = { 'president': 3, 'vice-president': 2, 'employee': 1 };
         results.sort((a, b) => (roleOrder[b.role] || 0) - (roleOrder[a.role] || 0));
         break;
     }
@@ -153,14 +149,14 @@ const VolunteerGallery = () => {
         color: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white',
         label: 'Vice President'
       },
-      'soorveer-yodha': {
-        icon: <ShieldIcon className="w-3 h-3 mr-1" />,
-        color: 'bg-gradient-to-r from-green-500 to-emerald-500 text-white',
-        label: 'Soorveer Yodha'
+      employee: {
+        icon: <Users className="w-3 h-3 mr-1" />,
+        color: 'bg-gray-100 text-gray-800',
+        label: 'Employee'
       }
     };
 
-    const config = roleConfig[role] || roleConfig['soorveer-yodha'];
+    const config = roleConfig[role] || roleConfig.employee;
 
     return (
       <span className={`px-2 py-1 rounded-full text-xs font-semibold flex items-center ${config.color}`}>
@@ -295,10 +291,10 @@ const VolunteerGallery = () => {
               <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-green-100 text-sm">Soorveer Yodha</p>
-                    <h3 className="text-xl font-bold">{roleCounts['soorveer-yodha']}</h3>
+                    <p className="text-gray-100 text-sm">Employees</p>
+                    <h3 className="text-xl font-bold">{roleCounts.employee}</h3>
                   </div>
-                  <ShieldIcon className="w-6 h-6 text-green-300" />
+                  <User className="w-6 h-6 text-gray-300" />
                 </div>
               </div>
             </div>
@@ -393,11 +389,10 @@ const VolunteerGallery = () => {
                       Vice Pres.
                     </button>
                     <button
-                      onClick={() => setSelectedRole('soorveer-yodha')}
-                      className={`px-3 py-1.5 rounded-lg text-sm transition flex items-center gap-1 ${selectedRole === 'soorveer-yodha' ? 'bg-green-500 text-white' : 'bg-green-100 text-green-800 hover:bg-green-200'}`}
+                      onClick={() => setSelectedRole('employee')}
+                      className={`px-3 py-1.5 rounded-lg text-sm transition ${selectedRole === 'employee' ? 'bg-gray-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                     >
-                      <ShieldIcon className="w-3 h-3" />
-                      Soorveer Yodha
+                      Employees
                     </button>
                   </div>
                 </div>
@@ -535,7 +530,7 @@ const VolunteerGallery = () => {
                   <div key={volunteer._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
                     {/* Volunteer Header with Role Badge */}
                     <div className="relative">
-                      {volunteer.role !== 'soorveer-yodha' && (
+                      {volunteer.role !== 'employee' && (
                         <div className={`absolute top-3 right-3 z-10 ${volunteer.role === 'president' ? 'bg-gradient-to-r from-yellow-500 to-orange-500' : 'bg-gradient-to-r from-purple-500 to-pink-500'} text-white px-2 py-1 rounded-full text-xs font-bold`}>
                           {volunteer.role === 'president' ? '👑 President' : '🥈 Vice Pres.'}
                         </div>
@@ -887,7 +882,7 @@ const VolunteerGallery = () => {
             <span>Total Volunteers: {roleCounts.all}</span>
             <span>President: {roleCounts.president}</span>
             <span>Vice President: {roleCounts['vice-president']}</span>
-            <span>Soorveer Yodha: {roleCounts['soorveer-yodha']}</span>
+            <span>Employees: {roleCounts.employee}</span>
           </div>
           <p className="mt-2 text-gray-500 text-sm">
             Use the search and filter options to find specific volunteers
