@@ -537,7 +537,7 @@ const VolunteerGallery = () => {
                     <div className="relative">
                       {volunteer.role !== 'soorveer-yodha' && (
                         <div className={`absolute top-3 right-3 z-10 ${volunteer.role === 'president' ? 'bg-gradient-to-r from-yellow-500 to-orange-500' : 'bg-gradient-to-r from-purple-500 to-pink-500'} text-white px-2 py-1 rounded-full text-xs font-bold`}>
-                          {volunteer.role === 'president' ? '👑 President' : 'soorveer yodha'}
+                          {volunteer.role === 'president' ? '👑 President' : ''}
                         </div>
                       )}
                     </div>
