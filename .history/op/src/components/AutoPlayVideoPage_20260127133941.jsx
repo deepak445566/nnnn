@@ -30,14 +30,6 @@ const AutoPlayVideoPage = () => {
       }
     };
   }, []);
-  const enableSound = () => {
-  const video = videoRef.current;
-  if (video) {
-    video.muted = false;    // sound on
-    video.play();           // resume play with sound
-  }
-};
-
 
   return (
    <div

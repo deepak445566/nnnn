@@ -30,33 +30,22 @@ const AutoPlayVideoPage = () => {
       }
     };
   }, []);
-  const enableSound = () => {
-  const video = videoRef.current;
-  if (video) {
-    video.muted = false;    // sound on
-    video.play();           // resume play with sound
-  }
-};
-
 
   return (
-   <div
-  className="video-wrapper"
-  onClick={enableSound}   // user click pe sound on
-  style={{ cursor: 'pointer' }}
->
-  <video
-    ref={videoRef}
-    className="w-full h-full rounded-lg shadow-lg"
-    autoPlay
-    muted
-    playsInline
-    loop
-  >
-    <source src="/images/ho.mp4" type="video/mp4" />
-  </video>
-</div>
-
+    <div className="video-section">
+      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
+        <video
+          ref={videoRef}
+          className="w-full h-full rounded-lg shadow-lg"
+          autoPlay      // 🔥 Autoplay
+          muted         // 🔥 MUST for autoplay without button
+          playsInline   // 🔥 Mobile friendly
+          loop          // Loop video
+        >
+          <source src="/images/ho.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
   );
 };
 
