@@ -526,7 +526,10 @@ const VolunteerGallery = () => {
             </h3>
             <p className="text-gray-500">
               {searchTerm || selectedAakNo || selectedRole !== 'all'
-                ? 'Try adjusting your search or filter criteria'
+                ? 'Try adj <div className={`absolute top-3 right-3 z-10 ${volunteer.role === 'president' ? 'bg-gradient-to-r from-yellow-500 to-orange-500' : 'bg-gradient-to-r from-purple-500 to-pink-500'} text-white px-2 py-1 rounded-full text-xs font-bold`}>
+                          {volunteer.role === 'president' ? '👑 President' : '🛡️ Soorveer Yodha'}
+                        </div>
+                      )}usting your search or filter criteria'
                 : 'Register a new volunteer to get started.'}
             </p>
           </div>
@@ -541,7 +544,8 @@ const VolunteerGallery = () => {
                   <div key={volunteer._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
                     {/* Volunteer Header with Role Badge - UPDATED */}
                     <div className="relative">
-                      
+                      {volunteer.role !== 'soorveer-yodha' && (  // Changed from 'employee'
+                       
                       {volunteer.role === 'soorveer-yodha' && (  // Added for Soorveer Yodha
                         <div className="absolute top-3 right-3 z-10 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 py-1 rounded-full text-xs font-bold">
                           🛡️ Soorveer Yodha

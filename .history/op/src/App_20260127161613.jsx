@@ -213,7 +213,7 @@ function App() {
           <Route path="/" element={
             <>
              <Navbar />
-             <AutoPlayVideoPage/>
+            
               <Home />
                
               <Focus/>
