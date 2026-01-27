@@ -6,12 +6,8 @@ exports.adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Default admin credentials if not set in .env
-    const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@soorveer.com';
-    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
-
     // Check admin credentials
-    if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
+    if (email !== process.env.ADMIN_EMAIL || password !== process.env.ADMIN_PASSWORD) {
       return res.status(401).json({
         success: false,
         message: 'Invalid admin credentials'
@@ -25,7 +21,7 @@ exports.adminLogin = async (req, res) => {
         role: 'admin',
         name: 'Soorveer Admin'
       },
-      process.env.JWT_SECRET || 'your-secret-key',
+      process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
 
@@ -73,18 +69,18 @@ exports.getAllVolunteers = async (req, res) => {
   }
 };
 
-// Assign/Update Role - UPDATED
+// Assign/Update Role
 exports.assignRole = async (req, res) => {
   try {
     const { volunteerId, role } = req.body;
     const adminEmail = req.admin.email;
 
-    // Validate role - UPDATED
-    const validRoles = ['soorveer-yodha', 'president', 'vice-president'];
+    // Validate role
+    const validRoles = ['employee', 'president', 'vice-president'];
     if (!validRoles.includes(role)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid role. Must be: soorveer-yodha, president, or vice-president'
+        message: 'Invalid role. Must be: employee, president, or vice-president'
       });
     }
 
@@ -97,7 +93,7 @@ exports.assignRole = async (req, res) => {
 
       if (existing) {
         // Remove previous role holder
-        existing.role = 'soorveer-yodha';
+        existing.role = 'employee';
         existing.assignedBy = {
           adminEmail: adminEmail,
           assignedAt: new Date()
@@ -125,7 +121,7 @@ exports.assignRole = async (req, res) => {
 
     res.json({
       success: true,
-      message: `Role updated to ${role === 'soorveer-yodha' ? 'Soorveer Yodha' : role} successfully`,
+      message: `Role updated to ${role} successfully`,
       data: volunteer
     });
 
@@ -138,13 +134,13 @@ exports.assignRole = async (req, res) => {
   }
 };
 
-// Get dashboard stats - UPDATED
+// Get dashboard stats
 exports.getDashboardStats = async (req, res) => {
   try {
     const total = await Volunteer.countDocuments();
     const president = await Volunteer.countDocuments({ role: 'president' });
     const vicePresident = await Volunteer.countDocuments({ role: 'vice-president' });
-    const soorveerYodha = await Volunteer.countDocuments({ role: 'soorveer-yodha' });
+    const employees = await Volunteer.countDocuments({ role: 'employee' });
 
     res.json({
       success: true,
@@ -152,7 +148,7 @@ exports.getDashboardStats = async (req, res) => {
         total,
         president,
         vicePresident,
-        soorveerYodha
+        employees
       }
     });
   } catch (error) {
@@ -164,7 +160,7 @@ exports.getDashboardStats = async (req, res) => {
   }
 };
 
-// Remove role (set to soorveer-yodha) - UPDATED
+// Remove role (set to employee)
 exports.removeRole = async (req, res) => {
   try {
     const { volunteerId } = req.body;
@@ -178,7 +174,7 @@ exports.removeRole = async (req, res) => {
       });
     }
 
-    volunteer.role = 'soorveer-yodha';
+    volunteer.role = 'Soorveer Yodha';
     volunteer.assignedBy = {
       adminEmail: adminEmail,
       assignedAt: new Date()
@@ -188,7 +184,7 @@ exports.removeRole = async (req, res) => {
 
     res.json({
       success: true,
-      message: 'Role removed (set to Soorveer Yodha)',
+      message: 'Role removed (set to employee)',
       data: volunteer
     });
 
