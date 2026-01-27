@@ -29,7 +29,7 @@ const VolunteerGallery = () => {
     all: 0,
     president: 0,
     'vice-president': 0,
-    'soorveer-yodha': 0  // Changed from 'employee'
+    employee: 0
   });
 
   // Fetch all volunteers from database only
@@ -44,23 +44,19 @@ const VolunteerGallery = () => {
         
         // Sort by role importance
         const sortedVolunteers = volunteersData.sort((a, b) => {
-          const roleOrder = { 
-            'president': 3, 
-            'vice-president': 2, 
-            'soorveer-yodha': 1  // Changed
-          };
+          const roleOrder = { 'president': 3, 'vice-president': 2, 'employee': 1 };
           return (roleOrder[b.role] || 0) - (roleOrder[a.role] || 0);
         });
         
         setVolunteers(sortedVolunteers);
         setFilteredVolunteers(sortedVolunteers);
         
-        // Calculate role counts - UPDATED
+        // Calculate role counts
         const counts = {
           all: sortedVolunteers.length,
           president: sortedVolunteers.filter(v => v.role === 'president').length,
           'vice-president': sortedVolunteers.filter(v => v.role === 'vice-president').length,
-          'soorveer-yodha': sortedVolunteers.filter(v => v.role === 'soorveer-yodha').length  // Changed
+          employee: sortedVolunteers.filter(v => v.role === 'employee').length
         };
         setRoleCounts(counts);
       } else {
@@ -122,11 +118,7 @@ const VolunteerGallery = () => {
         results.sort((a, b) => b.name.localeCompare(a.name));
         break;
       case 'role':
-        const roleOrder = { 
-          'president': 3, 
-          'vice-president': 2, 
-          'soorveer-yodha': 1  // Changed
-        };
+        const roleOrder = { 'president': 3, 'vice-president': 2, 'employee': 1 };
         results.sort((a, b) => (roleOrder[b.role] || 0) - (roleOrder[a.role] || 0));
         break;
     }
@@ -144,7 +136,7 @@ const VolunteerGallery = () => {
   const currentVolunteers = filteredVolunteers.slice(indexOfFirstVolunteer, indexOfLastVolunteer);
   const totalPages = Math.ceil(filteredVolunteers.length / batchSize);
 
-  // Role badge component - UPDATED
+  // Role badge component
   const RoleBadge = ({ role }) => {
     const roleConfig = {
       president: {
@@ -157,14 +149,14 @@ const VolunteerGallery = () => {
         color: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white',
         label: 'Vice President'
       },
-      'soorveer-yodha': {  // Changed from 'employee'
-        icon: <Shield className="w-3 h-3 mr-1" />,  // Changed icon
-        color: 'bg-gradient-to-r from-green-500 to-emerald-500 text-white',  // Changed color
-        label: 'Soorveer Yodha'  // Changed label
+      employee: {
+        icon: <Users className="w-3 h-3 mr-1" />,
+        color: 'bg-gray-100 text-gray-800',
+        label: 'Employee'
       }
     };
 
-    const config = roleConfig[role] || roleConfig['soorveer-yodha'];  // Updated default
+    const config = roleConfig[role] || roleConfig.employee;
 
     return (
       <span className={`px-2 py-1 rounded-full text-xs font-semibold flex items-center ${config.color}`}>
@@ -264,7 +256,7 @@ const VolunteerGallery = () => {
               View and manage all volunteer ID cards. Total: {volunteers.length} volunteers
             </p>
             
-            {/* Role Stats - UPDATED */}
+            {/* Role Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3">
                 <div className="flex items-center justify-between">
@@ -296,14 +288,13 @@ const VolunteerGallery = () => {
                 </div>
               </div>
               
-              {/* UPDATED: Soorveer Yodha Stats */}
               <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-green-100 text-sm">Soorveer Yodha</p>  {/* Changed text */}
-                    <h3 className="text-xl font-bold">{roleCounts['soorveer-yodha']}</h3>  {/* Changed */}
+                    <p className="text-gray-100 text-sm">Employees</p>
+                    <h3 className="text-xl font-bold">{roleCounts.employee}</h3>
                   </div>
-                  <Shield className="w-6 h-6 text-green-300" />  {/* Changed icon */}
+                  <User className="w-6 h-6 text-gray-300" />
                 </div>
               </div>
             </div>
@@ -367,11 +358,11 @@ const VolunteerGallery = () => {
             </div>
           </div>
 
-          {/* Advanced Filters - UPDATED */}
+          {/* Advanced Filters */}
           {showFilters && (
             <div className="mt-4 pt-4 border-t border-gray-200">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Role Filter - UPDATED */}
+                {/* Role Filter */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Filter by Role
@@ -397,13 +388,11 @@ const VolunteerGallery = () => {
                       <Award className="w-3 h-3" />
                       Vice Pres.
                     </button>
-                    {/* UPDATED: Soorveer Yodha Button */}
                     <button
-                      onClick={() => setSelectedRole('soorveer-yodha')}
-                      className={`px-3 py-1.5 rounded-lg text-sm transition flex items-center gap-1 ${selectedRole === 'soorveer-yodha' ? 'bg-green-500 text-white' : 'bg-green-100 text-green-800 hover:bg-green-200'}`}
+                      onClick={() => setSelectedRole('employee')}
+                      className={`px-3 py-1.5 rounded-lg text-sm transition ${selectedRole === 'employee' ? 'bg-gray-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                     >
-                      <Shield className="w-3 h-3" />  {/* Changed icon */}
-                      Soorveer Yodha  {/* Changed text */}
+                      Employees
                     </button>
                   </div>
                 </div>
@@ -539,16 +528,11 @@ const VolunteerGallery = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {currentVolunteers.map((volunteer) => (
                   <div key={volunteer._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
-                    {/* Volunteer Header with Role Badge - UPDATED */}
+                    {/* Volunteer Header with Role Badge */}
                     <div className="relative">
-                      {volunteer.role !== 'soorveer-yodha' && (  // Changed from 'employee'
+                      {volunteer.role !== 'employee' && (
                         <div className={`absolute top-3 right-3 z-10 ${volunteer.role === 'president' ? 'bg-gradient-to-r from-yellow-500 to-orange-500' : 'bg-gradient-to-r from-purple-500 to-pink-500'} text-white px-2 py-1 rounded-full text-xs font-bold`}>
-                          {volunteer.role === 'president' ? '👑 President' : '🛡️ Soorveer Yodha'}
-                        </div>
-                      )}
-                      {volunteer.role === 'soorveer-yodha' && (  // Added for Soorveer Yodha
-                        <div className="absolute top-3 right-3 z-10 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-                          🛡️ Soorveer Yodha
+                          {volunteer.role === 'president' ? '👑 President' : '🥈 Vice Pres.'}
                         </div>
                       )}
                     </div>
@@ -888,7 +872,7 @@ const VolunteerGallery = () => {
         </div>
       )}
 
-      {/* Footer - UPDATED */}
+      {/* Footer */}
       <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-gray-200">
         <div className="text-center">
           <p className="text-gray-600 text-sm">
@@ -898,7 +882,7 @@ const VolunteerGallery = () => {
             <span>Total Volunteers: {roleCounts.all}</span>
             <span>President: {roleCounts.president}</span>
             <span>Vice President: {roleCounts['vice-president']}</span>
-            <span>Soorveer Yodha: {roleCounts['soorveer-yodha']}</span>  {/* Changed */}
+            <span>Employees: {roleCounts.employee}</span>
           </div>
           <p className="mt-2 text-gray-500 text-sm">
             Use the search and filter options to find specific volunteers
