@@ -118,7 +118,7 @@ const VolunteerGallery = () => {
         results.sort((a, b) => b.name.localeCompare(a.name));
         break;
       case 'role':
-        const roleOrder = { 'president': 3, 'vice-president': 2, 'soorveer yodha': 1 };
+        const roleOrder = { 'president': 3, 'vice-president': 2, 'employee': 1 };
         results.sort((a, b) => (roleOrder[b.role] || 0) - (roleOrder[a.role] || 0));
         break;
     }

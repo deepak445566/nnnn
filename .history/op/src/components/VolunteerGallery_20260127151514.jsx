@@ -29,7 +29,7 @@ const VolunteerGallery = () => {
     all: 0,
     president: 0,
     'vice-president': 0,
-    'soorveer yodha': 0
+    soorveer yodha: 0
   });
 
   // Fetch all volunteers from database only
@@ -44,7 +44,7 @@ const VolunteerGallery = () => {
         
         // Sort by role importance
         const sortedVolunteers = volunteersData.sort((a, b) => {
-          const roleOrder = { 'president': 3, 'vice-president': 2, 'soorveer yodha': 1 };
+          const roleOrder = { 'president': 3, 'vice-president': 2, 'employee': 1 };
           return (roleOrder[b.role] || 0) - (roleOrder[a.role] || 0);
         });
         
@@ -56,7 +56,7 @@ const VolunteerGallery = () => {
           all: sortedVolunteers.length,
           president: sortedVolunteers.filter(v => v.role === 'president').length,
           'vice-president': sortedVolunteers.filter(v => v.role === 'vice-president').length,
-          'soorveer yodha': sortedVolunteers.filter(v => v.role === 'soorveer yodha').length
+          employee: sortedVolunteers.filter(v => v.role === 'employee').length
         };
         setRoleCounts(counts);
       } else {
@@ -118,7 +118,7 @@ const VolunteerGallery = () => {
         results.sort((a, b) => b.name.localeCompare(a.name));
         break;
       case 'role':
-        const roleOrder = { 'president': 3, 'vice-president': 2, 'soorveer yodha': 1 };
+        const roleOrder = { 'president': 3, 'vice-president': 2, 'employee': 1 };
         results.sort((a, b) => (roleOrder[b.role] || 0) - (roleOrder[a.role] || 0));
         break;
     }

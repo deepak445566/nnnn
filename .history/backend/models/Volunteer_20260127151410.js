@@ -34,7 +34,7 @@ const volunteerSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['soorveer yodha', 'president', 'vice-president'],
-        default: 'soorveer yodha'
+        default: 'emp'
     },
     // Admin details who assigned role
     assignedBy: {

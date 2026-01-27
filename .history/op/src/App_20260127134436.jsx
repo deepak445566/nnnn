@@ -215,7 +215,6 @@ function App() {
              <Navbar />
             
               <Home />
-                <AutoPlayVideoPage/>
               <Focus/>
              
               <AboutSection />
